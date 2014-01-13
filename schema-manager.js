@@ -191,8 +191,7 @@ angular.module('nag.rest.schemaManager', [
               isArray         : nagRestConfig.getIsArray(),
               flattenItemRoute: nagRestConfig.getFlattenItemRoute(),
               modal           : {},
-
-              inherit: null
+              inherit         : null
             }, schema);
           }
         },

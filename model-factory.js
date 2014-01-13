@@ -139,9 +139,6 @@ angular.module('nag.rest.model', [
 //Moved lower to code
 //            extendData(initialData, remoteFlag);
 
-        //setup properties for object
-        var modelProperties = {};
-
         _.forEach(schema.properties, function (value, key) {
           var defaultGetMethod, defaultSetMethod, defaultValue = value.default;
           defaultGetMethod = function () {
@@ -185,8 +182,7 @@ angular.module('nag.rest.model', [
 
         extendData(initialData, remoteFlag);
         //setup the manager (mngr) property
-        this.mngr = {};
-
+        Object.defineProperty(this, 'mngr', {value: {}, enumerable: false});
         Object.defineProperties(this.mngr, {
           /**
            * Schema for the model
@@ -510,7 +506,7 @@ angular.module('nag.rest.model', [
            */
           fullRoute: {
             get: function () {
-              return nagRestConfig.getBaseUrl() + self.mngr.route
+              return nagRestConfig.getBaseUrl() + self.mngr.route;
             }
           },
 
@@ -549,8 +545,8 @@ angular.module('nag.rest.model', [
            *
            * @method mngr.sync
            *
-           * @oaram {string} [method] HTTP method to use (override default logic that determines this)
-           * @param {boolean} [syncLocal=true] Whether or not the local model instance should sync the data recieved from the sync call
+           * @param {string} [method] HTTP method to use (override default logic that determines this)
+           * @param {boolean} [syncLocal=true] Whether or not the local model instance should sync the data received from the sync call
            *
            * @return {promise} Promise that can be used to trigger additional functionality of success/failure of the sync process
            *
