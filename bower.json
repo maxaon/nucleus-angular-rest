@@ -1,14 +1,19 @@
 {
-  "name": "nucleus-angular-rest",
-  "version": "0.3.6",
-  "dependencies": {
-    "javascript-utilities": "master",
-    "nucleus-angular-data-validation": "master"
+  "name"           : "nucleus-angular-rest",
+  "version"        : "0.3.6",
+  "main"           : [
+    "config.js",
+    "model-factory.js",
+    "repository-factory.js",
+    "schema-manager.js",
+    "data-validation.js",
+    "module.js"
+  ],
+  "dependencies"   : {
+    "lodash" : "1.2.1",
+    "angular": "1.2.0"
   },
   "devDependencies": {
-    "lodash": "1.2.1",
-    "angular": "1.2.0",
-    "angular-mocks": "1.2.0",
-    "jquery": "1.10.x"
+    "angular-mocks": "1.2.0"
   }
 }

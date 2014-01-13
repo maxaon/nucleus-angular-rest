@@ -1,12 +1,12 @@
 {
-  "name": "Nucleus Angular REST",
+  "name"       : "Nucleus Angular REST",
   "description": "Nucleus Angular REST",
-  "version": "0.4.0",
-  "options": {
-    "outdir": "./docs",
-    "jsonDir": "json",
-    "webDir": "web",
-    "paths": [
+  "version"    : "0.4.0",
+  "options"    : {
+    "outdir"     : "./docs",
+    "jsonDir"    : "json",
+    "webDir"     : "web",
+    "paths"      : [
       "."
     ],
     "ignorePaths": [

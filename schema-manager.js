@@ -36,34 +36,34 @@
  * @ngservice nagRestSchemaManager
  */
 angular.module('nag.rest.schemaManager', [
-  'nag.rest.config'
-])
-.factory('nagRestSchemaManager', [
-  'nagRestConfig',
-  function(nagRestConfig) {
-    var schemas;
+    'nag.rest.config'
+  ])
+  .factory('nagRestSchemaManager', [
+    'nagRestConfig',
+    function (nagRestConfig) {
+      var schemas;
 
-    schemas = {};
+      schemas = {};
 
-    return {
-      /**
-       * Retrieve a stored schema
-       *
-       * @method get
-       *
-       * @param {string} resourceName The name of the schema you want, referred to as a resource name
-       * @param {object} [overrideSchemaOptions] Overriding options to be applied to the resulting schema
-       *
-       * @returns {object} Schema based on the requested resource
-       *
-       * @example:javascript
-       * nagRestSchemaManager.add('user', userSchema);
-       *
-       * //this will return a copy of the schema that is tied to the 'user' resource.  this copy can be modified
-       * //without the stored version being effected
-       *
-       * // resulting object:
-       * // {
+      return {
+        /**
+         * Retrieve a stored schema
+         *
+         * @method get
+         *
+         * @param {string} resourceName The name of the schema you want, referred to as a resource name
+         * @param {object} [overrideSchemaOptions] Overriding options to be applied to the resulting schema
+         *
+         * @returns {object} Schema based on the requested resource
+         *
+         * @example:javascript
+         * nagRestSchemaManager.add('user', userSchema);
+         *
+         * //this will return a copy of the schema that is tied to the 'user' resource.  this copy can be modified
+         * //without the stored version being effected
+         *
+         * // resulting object:
+         * // {
        * //   route: '/users',
        * //   properties: {
        * //     id: {
@@ -82,15 +82,15 @@ angular.module('nag.rest.schemaManager', [
        * //   dataListLocation: 'response.data.users',
        * //   dataItemLocation: 'response.data.user'
        * // }
-       *
-       * var pulledUserSchema = nagRestSchemaManager.get('user');
-       *
-       * //you can also pass in a second parameter that will override values in the resulting schema, it will not
-       * //effect anything stored in the schema manager itself.  it will also override recursively meaning that
-       * //if you want to override one of the properties, you can do that without effecting the other properties.
-       *
-       * // returns:
-       * // {
+         *
+         * var pulledUserSchema = nagRestSchemaManager.get('user');
+         *
+         * //you can also pass in a second parameter that will override values in the resulting schema, it will not
+         * //effect anything stored in the schema manager itself.  it will also override recursively meaning that
+         * //if you want to override one of the properties, you can do that without effecting the other properties.
+         *
+         * // returns:
+         * // {
        * //   route: '/custom/users',
        * //   properties: {
        * //     id: {
@@ -114,8 +114,8 @@ angular.module('nag.rest.schemaManager', [
        * //   dataListLocation: 'response.data.users',
        * //   dataItemLocation: 'response.data.user'
        * // }
-       *
-       * var customUserSchema = nagRestSchemaManager.get('user', {
+         *
+         * var customUserSchema = nagRestSchemaManager.get('user', {
        *   route: '/custom/users',
        *   properties: {
        *     email: {
@@ -128,31 +128,31 @@ angular.module('nag.rest.schemaManager', [
        *     }
        *   }
        * });
-       */
-      get: function(resourceName, overrideSchemaOptions) {
-        if(_.isPlainObject(schemas[resourceName])) {
-          if(overrideSchemaOptions) {
-            //clone the schema so we don't overwrite any stored data
-            var newSchema = _.clone(schemas[resourceName], true);
+         */
+        get: function (resourceName, overrideSchemaOptions) {
+          if (_.isPlainObject(schemas[resourceName])) {
+            if (overrideSchemaOptions) {
+              //clone the schema so we don't overwrite any stored data
+              var newSchema = _.clone(schemas[resourceName], true);
 
-            return _.merge(newSchema, overrideSchemaOptions);
+              return _.merge(newSchema, overrideSchemaOptions);
+            }
+
+            return _.clone(schemas[resourceName], true);
           }
+        },
 
-          return _.clone(schemas[resourceName], true);
-        }
-      },
-
-      /**
-       * Adds a schema (look at <a href="#schema">schema</a> to see the schema structure)
-       *
-       * @method add
-       *
-       * @param {string} resourceName Unique string to identify this schema, referred to as a resource name
-       * @param {object} schema Schema options
-       *
-       * @example:javascript
-       * //lets define a schema object
-       * var userSchema = {
+        /**
+         * Adds a schema (look at <a href="#schema">schema</a> to see the schema structure)
+         *
+         * @method add
+         *
+         * @param {string} resourceName Unique string to identify this schema, referred to as a resource name
+         * @param {object} schema Schema options
+         *
+         * @example:javascript
+         * //lets define a schema object
+         * var userSchema = {
        *   route: '/users',
        *   properties: {
        *     id: {
@@ -171,62 +171,65 @@ angular.module('nag.rest.schemaManager', [
        *   dataListLocation: 'response.data.users',
        *   dataItemLocation: 'response.data.user'
        * };
-       *
-       * //after this you will be able to pass the string 'user' with anything asking for a resourceName
-       * nagRestSchemaManager.add('user', userSchema);
-       */
-      add: function(resourceName, schema) {
-        //make sure the schema is defined as an object
-        if(_.isPlainObject(schema)) {
-          schemas[resourceName] = _.extend({
-            route: null,
-            idProperty: nagRestConfig.getModelIdProperty(),
-            properties: {},
-            relations: {},
-            dataListLocation: nagRestConfig.getResponseDataLocation(),
-            dataItemLocation: nagRestConfig.getResponseDataLocation(),
-            autoParse: true,
-            requestFormatter: nagRestConfig.getRequestFormatter(),
-            isArray: nagRestConfig.getIsArray(),
-            flattenItemRoute: nagRestConfig.getFlattenItemRoute(),
-            inherit: null
-          }, schema);
-        }
-      },
+         *
+         * //after this you will be able to pass the string 'user' with anything asking for a resourceName
+         * nagRestSchemaManager.add('user', userSchema);
+         */
+        add: function (resourceName, schema) {
+          //make sure the schema is defined as an object
+          if (_.isPlainObject(schema)) {
+            schemas[resourceName] = _.extend({
+              name            : resourceName,
+              route           : null,
+              idProperty      : nagRestConfig.getModelIdProperty(),
+              properties      : {},
+              relations       : {},
+              dataListLocation: nagRestConfig.getResponseDataLocation(),
+              dataItemLocation: nagRestConfig.getResponseDataLocation(),
+              autoParse       : true,
+              requestFormatter: nagRestConfig.getRequestFormatter(),
+              isArray         : nagRestConfig.getIsArray(),
+              flattenItemRoute: nagRestConfig.getFlattenItemRoute(),
+              modal           : {},
 
-      /**
-       * Removing a schema
-       *
-       * @method remove
-       *
-       * @param {string} resourceName Name of the schema to remove, referred to as a resource name
-       *
-       * @example:javascript
-       * nagRestSchemaManager.add('user', userSchema);
-       *
-       * //this will remove the schema from the manager
-       * nagRestSchemaManager.remove('user');
-       *
-       * // returns:
-       * // undefined
-       * var pulledUserSchema = nagRestSchemaManager.get('user');
-       */
-      remove: function(resourceName) {
-        delete schemas[resourceName];
-      },
+              inherit: null
+            }, schema);
+          }
+        },
 
-      /**
-       * Normalize a data object using the configuration of a schema
-       *
-       * @method normalizeData
-       *
-       * @param {string} schema Schema name to use for normalization, referred to as a resource name
-       * @param {object} data Data to normalize
-       * @param {string} way Which way to normalize or how the data is traveling (either 'outgoing' or 'incoming')
-       * @returns {object} Normalized data based on the schema
-       *
-       * @example:javascript
-       * var schema = {
+        /**
+         * Removing a schema
+         *
+         * @method remove
+         *
+         * @param {string} resourceName Name of the schema to remove, referred to as a resource name
+         *
+         * @example:javascript
+         * nagRestSchemaManager.add('user', userSchema);
+         *
+         * //this will remove the schema from the manager
+         * nagRestSchemaManager.remove('user');
+         *
+         * // returns:
+         * // undefined
+         * var pulledUserSchema = nagRestSchemaManager.get('user');
+         */
+        remove: function (resourceName) {
+          delete schemas[resourceName];
+        },
+
+        /**
+         * Normalize a data object using the configuration of a schema
+         *
+         * @method normalizeData
+         *
+         * @param {string} schema Schema name to use for normalization, referred to as a resource name
+         * @param {object} data Data to normalize
+         * @param {string} way Which way to normalize or how the data is traveling (either 'outgoing' or 'incoming')
+         * @returns {object} Normalized data based on the schema
+         *
+         * @example:javascript
+         * var schema = {
        *   route: '/users',
        *   properties: {
        *     id: {
@@ -240,45 +243,45 @@ angular.module('nag.rest.schemaManager', [
        *     }
        *   }
        * };
-       *
-       * // returns:
-       * // {
+         *
+         * // returns:
+         * // {
        * //   id: 1,
        * //   firstName: 'John',
        * //   lastName: 'Doe'
        * // }
-       * var incomingDataNormalized = nagRestSchemaManager.normalizeData(schema, {
+         * var incomingDataNormalized = nagRestSchemaManager.normalizeData(schema, {
        *   IdenTiFIer: 1,
        *   firstname: 'John',
        *   LAST_NAME: 'Doe'
        * });
-       *
-       * // returns:
-       * // {
+         *
+         * // returns:
+         * // {
        * //   IdenTiFIer: 1,
        * //   firstname: 'John',
        * //   LAST_NAME: 'Doe'
        * // }
-       * var outgoingDataNormalized = nagRestSchemaManager.normalizeData(schema, {
+         * var outgoingDataNormalized = nagRestSchemaManager.normalizeData(schema, {
        *   id: 1,
        *   firstName: 'John',
        *   lastName: 'Doe'
        * }, 'outgoing');
-       */
-      normalizeData: function(schema, data, way) {
-        var normalizedData = {};
-        way = (way === 'outgoing' ? 'outgoing' : 'incoming');
+         */
+        normalizeData: function (schema, data, way) {
+          var normalizedData = {};
+          way = (way === 'outgoing' ? 'outgoing' : 'incoming');
 
-        _.forEach(schema.properties, function(value, key) {
-          var remoteProperty = (!_.isUndefined(value.remoteProperty) && !_.isNull(value.remoteProperty) ? value.remoteProperty : key);
-          var normalizedKey = (way === 'outgoing' ? remoteProperty : key);
-          var noneNormalizedKey = (way === 'outgoing' ? key : remoteProperty);
+          _.forEach(schema.properties, function (value, key) {
+            var remoteProperty = (!_.isUndefined(value.remoteProperty) && !_.isNull(value.remoteProperty) ? value.remoteProperty : key);
+            var normalizedKey = (way === 'outgoing' ? remoteProperty : key);
+            var noneNormalizedKey = (way === 'outgoing' ? key : remoteProperty);
 
-          normalizedData[normalizedKey] = data[noneNormalizedKey] || data[key];
-        });
+            normalizedData[normalizedKey] = data[noneNormalizedKey] || data[key];
+          });
 
-        return normalizedData;
-      }
-    };
-  }
-]);
+          return normalizedData;
+        }
+      };
+    }
+  ]);
